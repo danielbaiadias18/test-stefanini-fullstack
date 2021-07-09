@@ -1,0 +1,14 @@
+version: '3.4'
+services:
+  pgc.charge.api:
+    image: ${DOCKER_REGISTRY-}pgcchargeapi
+    build:
+      context: .
+      dockerfile: Web Charge/Examples.Charge.API/Dockerfile
+    depends_on:
+      - db
+  db:
+    image: "mcr.microsoft.com/mssql/server"
+    environment:
+      SA_PASSWORD: "Master@123"
+      ACCEPT_EULA: "Y"
