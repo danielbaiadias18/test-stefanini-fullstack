@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 namespace Examples.Charge.Application.Messages.Response
 {
-    public class PersonResponse : BaseResponse
+    public class PersonPhoneListResponse : BaseResponse
     {
-        public List<PersonDto> PersonObjects { get; set; }
+        public List<PersonPhoneDto> PersonPhoneObjects { get; set; }
     }
 }

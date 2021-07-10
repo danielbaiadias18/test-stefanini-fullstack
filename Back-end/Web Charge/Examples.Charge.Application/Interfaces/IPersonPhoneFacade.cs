@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 namespace Examples.Charge.Application.Interfaces
 {
-    public interface IPersonFacade
+    public interface IPersonPhoneFacade
     {
-        Task<PersonListResponse> FindAllAsync();
+        Task<PersonPhoneListResponse> FindAllAsync();
     }
 }

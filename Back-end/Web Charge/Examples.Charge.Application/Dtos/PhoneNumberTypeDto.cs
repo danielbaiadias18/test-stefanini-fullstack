@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Examples.Charge.Application.Dtos
 {
-    public class PersonDto
+    public class PhoneNumberTypeDto
     {
         public int BusinessEntityID { get; set; }
         public string Name { get; set; }

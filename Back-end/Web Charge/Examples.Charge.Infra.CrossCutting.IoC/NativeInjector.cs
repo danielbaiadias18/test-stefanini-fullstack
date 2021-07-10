@@ -32,6 +32,7 @@ namespace Examples.Charge.Infra.CrossCutting.IoC
             services.AddScoped<IPersonService, PersonService>();
             services.AddScoped<IPersonRepository, PersonRepository>();
 
+            services.AddScoped<IPersonPhoneFacade, PersonPhoneFacade>();
             services.AddScoped<IPersonPhoneService, PersonPhoneService>();
             services.AddScoped<IPersonPhoneRepository, PersonPhoneRepository>();
             

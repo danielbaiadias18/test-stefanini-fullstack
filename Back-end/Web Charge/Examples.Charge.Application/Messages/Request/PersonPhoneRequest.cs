@@ -2,8 +2,8 @@
 
 namespace Examples.Charge.Application.Messages.Request
 {
-    public class PersonRequest
+    public class PersonPhoneRequest
     {
-        public PersonDto Person { get; set; }
+        public PersonPhoneDto PersonPhone { get; set; }
     }
 }

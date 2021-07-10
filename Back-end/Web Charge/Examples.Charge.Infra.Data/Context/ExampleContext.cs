@@ -14,6 +14,10 @@ namespace Examples.Charge.Infra.Data.Context
             Database.Migrate();
         }
 
+        public ExampleContext() : base()
+        {
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetAssembly(typeof(ExampleContext)));

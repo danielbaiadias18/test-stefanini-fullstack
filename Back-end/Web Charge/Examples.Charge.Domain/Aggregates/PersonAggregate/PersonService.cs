@@ -11,7 +11,6 @@ namespace Examples.Charge.Domain.Aggregates.PersonAggregate
         public PersonService(IPersonRepository personRepository)
         {
             _personRepository = personRepository;
-
         }
 
         public async Task<List<Person>> FindAllAsync() => (await _personRepository.FindAllAsync()).ToList();

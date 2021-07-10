@@ -20,13 +20,14 @@ namespace Examples.Charge.Application.Facade
             _mapper = mapper;
         }
 
-        public async Task<PersonResponse> FindAllAsync()
+        public async Task<PersonListResponse> FindAllAsync()
         {
             var result = await _personService.FindAllAsync();
-            var response = new PersonResponse();
+            var response = new PersonListResponse();
             response.PersonObjects = new List<PersonDto>();
             response.PersonObjects.AddRange(result.Select(x => _mapper.Map<PersonDto>(x)));
             return response;
         }
+
     }
 }
