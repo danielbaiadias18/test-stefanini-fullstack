@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Examples.Charge.Application.Dtos;
 using Examples.Charge.Application.Interfaces;
+using Examples.Charge.Application.Messages.Request;
 using Examples.Charge.Application.Messages.Response;
+using Examples.Charge.Domain.Aggregates.PersonAggregate;
 using Examples.Charge.Domain.Aggregates.PersonAggregate.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,13 +30,34 @@ namespace Examples.Charge.Application.Facade
             response.PersonPhoneObjects.AddRange(result.Select(x => _mapper.Map<PersonPhoneDto>(x)));
             return response;
         }
-        public async Task<PersonPhoneResponse> FindAllAsync(int Id, string PhoneNumber, int PhoneNumberTypeID)
+        public async Task<PersonPhoneResponse> GetById(string phoneNumber, int phoneNumberTypeID)
         {
-            var result = await _personPhoneService.FindAllAsync(Id, PhoneNumber, PhoneNumberTypeID);
+            var result = await _personPhoneService.GetById(phoneNumber, phoneNumberTypeID);
             var response = new PersonPhoneResponse();
             response.PersonPhoneObject = new PersonPhoneDto();
             response.PersonPhoneObject = _mapper.Map<PersonPhoneDto>(result);
             return response;
+        }
+
+        public async Task<PersonPhoneResponse> Post(PersonPhone phonePerson)
+        {
+            var result = await _personPhoneService.Post(phonePerson);
+            var response = new PersonPhoneResponse();
+            response.PersonPhoneObject = new PersonPhoneDto();
+            response.PersonPhoneObject = _mapper.Map<PersonPhoneDto>(result);
+            return response;
+        }
+        public async Task<PersonPhoneResponse> Put(string phoneNumber, int phoneNumberTypeID, PersonPhone phonePerson)
+        {
+            var result = await _personPhoneService.Put(phoneNumber, phoneNumberTypeID,phonePerson);
+            var response = new PersonPhoneResponse();
+            response.PersonPhoneObject = new PersonPhoneDto();
+            response.PersonPhoneObject = _mapper.Map<PersonPhoneDto>(result);
+            return response;
+        }
+        public async Task<int> Delete(string phoneNumber, int phoneNumberTypeID)
+        {
+            return await _personPhoneService.Delete(phoneNumber, phoneNumberTypeID);
         }
 
     }

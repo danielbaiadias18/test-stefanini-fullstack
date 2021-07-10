@@ -1,13 +1,10 @@
-﻿using Abp.Domain.Entities;
-using Abp.Events.Bus;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Examples.Charge.Domain.Aggregates.PersonAggregate
 {
     public class PersonPhone
     {
+        [Required(ErrorMessage = "BusinessEntityID é obrigatório")]
         public int BusinessEntityID { get; set; }
 
         public string PhoneNumber { get; set; }
@@ -18,6 +15,5 @@ namespace Examples.Charge.Domain.Aggregates.PersonAggregate
 
         public PhoneNumberType PhoneNumberType { get; set; }
 
-        public ICollection<IEventData> DomainEvents => throw new NotImplementedException();
     }
 }

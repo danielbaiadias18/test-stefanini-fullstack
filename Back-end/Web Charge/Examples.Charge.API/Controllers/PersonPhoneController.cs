@@ -6,6 +6,8 @@ using Examples.Charge.Application.Messages.Response;
 using System.Threading.Tasks;
 using Examples.Charge.Infra.Data.Context;
 using Examples.Charge.Domain.Aggregates.PersonAggregate;
+using Microsoft.AspNetCore.Http;
+using System;
 
 namespace Examples.Charge.API.Controllers
 {
@@ -24,10 +26,44 @@ namespace Examples.Charge.API.Controllers
         public async Task<ActionResult<PersonPhoneListResponse>> Get() => Response(await _facade.FindAllAsync());
 
 
-        [HttpGet("{Id}/{PhoneNumber}/{PhoneNumberTypeID}")]
-        public async Task<ActionResult<PersonPhoneResponse>> Get(int Id, string PhoneNumber, int PhoneNumberTypeID)
+        [HttpGet("{PhoneNumber}/{PhoneNumberTypeID}")]
+        public async Task<ActionResult<PersonPhoneResponse>> Get(string phoneNumber, int phoneNumberTypeID)
         {
-            return Response(await _facade.FindAllAsync(Id, PhoneNumber, PhoneNumberTypeID));
+            return Response(await _facade.GetById(phoneNumber, phoneNumberTypeID));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<PersonPhone>> Post([FromBody] PersonPhone request)
+        {
+            //if(modelState.IsValid)
+
+            return Response(await _facade.Post(request));
+        }
+
+        [HttpPut("{PhoneNumber}/{PhoneNumberTypeID}")]
+        public async Task<ActionResult<PersonPhone>> Put(string phoneNumber, int phoneNumberTypeID, [FromBody] PersonPhone request)
+        {
+            //if(modelState.IsValid)
+
+            return Response(await _facade.Put(phoneNumber, phoneNumberTypeID, request));
+        }
+
+        [HttpDelete("{PhoneNumber}/{PhoneNumberTypeID}")]
+        public async Task<ActionResult> Delete(string phoneNumber, int phoneNumberTypeID)
+        {
+            try
+            {
+                if (await _facade.Delete(phoneNumber, phoneNumberTypeID) > 0)
+                {
+                    return Ok();
+                }
+            }
+            catch (Exception)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Não foi possível excluir o registro");
+            }
+
+            return BadRequest();
         }
     }
 }

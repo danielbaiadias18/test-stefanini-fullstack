@@ -14,10 +14,21 @@ namespace Examples.Charge.Domain.Aggregates.PersonAggregate
         }
 
         public async Task<List<PersonPhone>> FindAllAsync() => (await _personPhoneRepository.FindAllAsync()).ToList();
-        public async Task<PersonPhone> FindAllAsync(int Id, string PhoneNumber, int PhoneNumberTypeID)
+        public async Task<PersonPhone> GetById(string phoneNumber, int phoneNumberTypeID)
         {
-            return (await _personPhoneRepository.FindAllAsync())
-                .FirstOrDefault(x => x.BusinessEntityID == Id && x.PhoneNumber == PhoneNumber && x.PhoneNumberTypeID == PhoneNumberTypeID);
+            return (await _personPhoneRepository.GetById(phoneNumber, phoneNumberTypeID));
         }
-    }
+        public async Task<PersonPhone> Post(PersonPhone personPhone)
+        {
+            return await _personPhoneRepository.Post(personPhone);
+        }
+        public async Task<PersonPhone> Put(string phoneNumber, int phoneNumberTypeID, PersonPhone personPhone)
+        {
+            return await _personPhoneRepository.Put(phoneNumber, phoneNumberTypeID, personPhone);
+        }
+        public async Task<int> Delete(string phoneNumber, int phoneNumberTypeID)
+        {
+            return await _personPhoneRepository.Delete(phoneNumber, phoneNumberTypeID);
+        }
+    }       
 }
