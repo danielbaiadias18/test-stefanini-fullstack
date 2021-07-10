@@ -28,6 +28,14 @@ namespace Examples.Charge.Application.Facade
             response.PersonPhoneObjects.AddRange(result.Select(x => _mapper.Map<PersonPhoneDto>(x)));
             return response;
         }
+        public async Task<PersonPhoneResponse> FindAllAsync(int Id, string PhoneNumber, int PhoneNumberTypeID)
+        {
+            var result = await _personPhoneService.FindAllAsync(Id, PhoneNumber, PhoneNumberTypeID);
+            var response = new PersonPhoneResponse();
+            response.PersonPhoneObject = new PersonPhoneDto();
+            response.PersonPhoneObject = _mapper.Map<PersonPhoneDto>(result);
+            return response;
+        }
 
     }
 }

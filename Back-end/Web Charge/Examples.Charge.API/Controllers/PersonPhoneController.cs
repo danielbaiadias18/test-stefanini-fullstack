@@ -22,5 +22,12 @@ namespace Examples.Charge.API.Controllers
 
         [HttpGet]
         public async Task<ActionResult<PersonPhoneListResponse>> Get() => Response(await _facade.FindAllAsync());
+
+
+        [HttpGet("{Id}/{PhoneNumber}/{PhoneNumberTypeID}")]
+        public async Task<ActionResult<PersonPhoneResponse>> Get(int Id, string PhoneNumber, int PhoneNumberTypeID)
+        {
+            return Response(await _facade.FindAllAsync(Id, PhoneNumber, PhoneNumberTypeID));
+        }
     }
 }
