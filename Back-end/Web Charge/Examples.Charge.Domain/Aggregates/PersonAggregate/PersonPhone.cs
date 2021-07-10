@@ -7,8 +7,11 @@ namespace Examples.Charge.Domain.Aggregates.PersonAggregate
         [Required(ErrorMessage = "BusinessEntityID é obrigatório")]
         public int BusinessEntityID { get; set; }
 
+        [MaxLength(450)]
+        [Required(ErrorMessage = "PhoneNumber é obrigatório")]
         public string PhoneNumber { get; set; }
-
+        
+        [Required(ErrorMessage = "PhoneNumberTypeID é obrigatório")]
         public int PhoneNumberTypeID { get; set; }
 
         public Person Person { get; set; }

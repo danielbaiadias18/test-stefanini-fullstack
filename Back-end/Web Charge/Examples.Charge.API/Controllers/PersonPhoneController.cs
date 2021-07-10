@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Examples.Charge.Application.Interfaces;
-using Examples.Charge.Application.Messages.Request;
 using Examples.Charge.Application.Messages.Response;
 using System.Threading.Tasks;
-using Examples.Charge.Infra.Data.Context;
 using Examples.Charge.Domain.Aggregates.PersonAggregate;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -35,7 +33,10 @@ namespace Examples.Charge.API.Controllers
         [HttpPost]
         public async Task<ActionResult<PersonPhone>> Post([FromBody] PersonPhone request)
         {
-            //if(modelState.IsValid)
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { success = false, errors = ModelState });
+            }
 
             return Response(await _facade.Post(request));
         }
@@ -43,7 +44,10 @@ namespace Examples.Charge.API.Controllers
         [HttpPut("{PhoneNumber}/{PhoneNumberTypeID}")]
         public async Task<ActionResult<PersonPhone>> Put(string phoneNumber, int phoneNumberTypeID, [FromBody] PersonPhone request)
         {
-            //if(modelState.IsValid)
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { success = false, errors = ModelState});
+            }
 
             return Response(await _facade.Put(phoneNumber, phoneNumberTypeID, request));
         }
@@ -60,7 +64,7 @@ namespace Examples.Charge.API.Controllers
             }
             catch (Exception)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Não foi possível excluir o registro");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Não foi possível excluir o registro");
             }
 
             return BadRequest();
