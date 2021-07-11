@@ -25,7 +25,10 @@ namespace Examples.Charge.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2).AddJsonOptions(
+            options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
+
             services.AddDbContext<ExampleContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
@@ -62,6 +65,9 @@ namespace Examples.Charge.API
                     options.IncludeXmlComments(xmlWebApiFile);
                 }
             });
+
+            services.AddCors();
+
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -79,7 +85,7 @@ namespace Examples.Charge.API
                 options.DisplayRequestDuration();
             });
 
-
+            app.UseCors(option => option.AllowAnyOrigin());
             app.UseMvc();
         }
 

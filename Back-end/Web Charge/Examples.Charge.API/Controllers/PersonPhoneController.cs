@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Examples.Charge.Domain.Aggregates.PersonAggregate;
 using Microsoft.AspNetCore.Http;
 using System;
+using Microsoft.AspNetCore.Cors;
 
 namespace Examples.Charge.API.Controllers
 {
@@ -21,8 +22,10 @@ namespace Examples.Charge.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<PersonPhoneListResponse>> Get() => Response(await _facade.FindAllAsync());
-
+        public async Task<ActionResult<PersonPhoneListResponse>> Get()
+        {
+            return Response(await _facade.FindAllAsync());
+        }
 
         [HttpGet("{PhoneNumber}/{PhoneNumberTypeID}")]
         public async Task<ActionResult<PersonPhoneResponse>> Get(string phoneNumber, int phoneNumberTypeID)

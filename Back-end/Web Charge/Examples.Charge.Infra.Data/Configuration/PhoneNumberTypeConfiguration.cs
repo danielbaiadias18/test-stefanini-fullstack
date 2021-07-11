@@ -8,7 +8,6 @@ namespace Examples.Charge.Infra.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<PhoneNumberType> builder)
         {
-            builder.Ignore(b => b.DomainEvents);
 
             builder.ToTable("PhoneNumberType", "dbo").HasKey(t => t.PhoneNumberTypeID);
 

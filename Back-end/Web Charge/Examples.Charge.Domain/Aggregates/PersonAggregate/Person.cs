@@ -14,6 +14,5 @@ namespace Examples.Charge.Domain.Aggregates.PersonAggregate
 
         public ICollection<PersonPhone> Phones { get; set; }
 
-        public ICollection<IEventData> DomainEvents => throw new NotImplementedException();
     }
 }

@@ -1,5 +1,29 @@
-<div class="content" role="main">
-Stefanini Works
+<div class="content text-center" role="main">
+  <div>
+    <p class="h2 mt-1">
+      Telefone Pessoal
+    </p>
+  </div>
+  <div class="col-10 offset-1 mt-5">
+    <table class="table table-bordered table-stripped">
+      <thead>
+        <tr>
+          <th scope="col" class="col-2">Código da Pessoa</th>
+          <th scope="col" class="col-4">Nome</th>
+          <th scope="col" class="col-3">Telefone</th>
+          <th scope="col" class="col-3">Tipo</th>
+        </tr>
+      </thead>
+      <tbody class="hoverTr">
+        <tr *ngFor="let p of personPhones" (click)="getById(p.phoneNumberTypeID, p.phoneNumber)">
+          <td>{{ p.businessEntityID }}</td>
+          <td>{{ p.person.name }}</td>
+          <td>{{ p.phoneNumber }}</td>
+          <td>{{ p.phoneNumberType.name }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <router-outlet></router-outlet>
