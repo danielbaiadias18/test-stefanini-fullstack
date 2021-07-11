@@ -1,28 +1,101 @@
-<div class="content text-center" role="main">
-  <div>
-    <p class="h2 mt-1">
-      Telefone Pessoal
-    </p>
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mt-2">
+      <div class="col-12 text-center">
+        <h1>Telefone Pessoal</h1>
+      </div>
+    </div>
   </div>
-  <div class="col-10 offset-1 mt-5">
-    <table class="table table-bordered table-stripped">
-      <thead>
-        <tr>
-          <th scope="col" class="col-2">Código da Pessoa</th>
-          <th scope="col" class="col-4">Nome</th>
-          <th scope="col" class="col-3">Telefone</th>
-          <th scope="col" class="col-3">Tipo</th>
-        </tr>
-      </thead>
-      <tbody class="hoverTr">
-        <tr *ngFor="let p of personPhones" (click)="getById(p.phoneNumberTypeID, p.phoneNumber)">
-          <td>{{ p.businessEntityID }}</td>
-          <td>{{ p.person.name }}</td>
-          <td>{{ p.phoneNumber }}</td>
-          <td>{{ p.phoneNumberType.name }}</td>
-        </tr>
-      </tbody>
-    </table>
+</section>
+
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="col-10 offset-1 mt-5">
+              <table class="table table-bordered table-stripped">
+                <thead>
+                  <tr>
+                    <th scope="col" class="col-2">Código da Pessoa</th>
+                    <th scope="col" class="col-4">Nome</th>
+                    <th scope="col" class="col-3">Telefone</th>
+                    <th scope="col" class="col-3">Tipo</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody class="hoverTr">
+                  <tr *ngFor="let p of personPhones" (click)="getById(p.phoneNumberTypeID, p.phoneNumber)">
+                    <td>{{ p.businessEntityID }}</td>
+                    <td>{{ p.person.name }}</td>
+                    <td>{{ p.phoneNumber }}</td>
+                    <td>{{ p.phoneNumberType.name }}</td>
+                    <td><i class="bi bi-trash"></i></td>
+                  </tr>
+                  <tr>
+                    <td>1</td>
+                    <td>Daniel</td>
+                    <td>31 85499494</td>
+                    <td>Comercial</td>
+                    <td><i class="bi bi-trash text-danger"></i></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <form [formGroup]="form" (ngSubmit)="salvar()">
+              <div class="row align-items">
+                <div class="form-group col-1" *ngIf="personPhone">
+                  <label for="businessEntityID">Cód. Pessoa</label>
+                  <input type="text" formControlName="businessEntityID" disabled class="form-control"
+                    id="businessEntityID">
+                </div>
+                <div class="form-group col-3" *ngIf="personPhone">
+                  <label for="name">Nome</label>
+                  <input type="text" formControlName="name" disabled class="form-control" id="name">
+                </div>
+                <div class="form-group col-3">
+                  <label for="phoneNumber">Telefone(*)</label>
+                  <input type="text" formControlName="phoneNumber" mask="(00) 00000-0000" class="form-control"
+                    [class]="(form.get('phoneNumber')!.invalid && (form.get('phoneNumber')!.dirty || form.get('phoneNumber')!.touched)) ? 'is-invalid' : ''"
+                    id="phoneNumber" required>
+                  <div
+                    *ngIf="form.get('phoneNumber')!.invalid && (form.get('phoneNumber')!.dirty || form.get('phoneNumber')!.touched)">
+                    <small class="text-danger">
+                      Este campo é requerido
+                    </small>
+                  </div>
+                </div>
+
+                <div class="form-group col-1">
+                  <label for="phoneNumberTypeID">Tipo(*)</label>
+                  <input type="number" formControlName="phoneNumberTypeID" mask="(00) 00000-0000" class="form-control"
+                    [class]="(form.get('phoneNumberTypeID')!.invalid && (form.get('phoneNumberTypeID')!.dirty || form.get('phoneNumberTypeID')!.touched)) ? 'is-invalid' : ''"
+                    id="phoneNumberTypeID" required>
+                  <div
+                    *ngIf="form.get('phoneNumberTypeID')!.invalid && (form.get('phoneNumberTypeID')!.dirty || form.get('phoneNumberTypeID')!.touched)">
+                    <small class="text-danger">
+                      Este campo é requerido
+                    </small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 text-center mt-4">
+                <button type="submit" class="btn btn-primary">{{ personPhone ? 'Alterar' : 'Salvar Novo'}}</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
