@@ -4,7 +4,9 @@
 <sub>ㅤ</sub>
 ![](https://komarev.com/ghpvc/?username=danielbaiadias18&style=flat-square&color=13b982&label=Profile%20views)
 
-- 🔭 I’m currently working on [ARWEB Sistemas](http://www.arwebsistemas.com/) as a Full Stack Developer 🚀
+- 🔭 I’m currently working as a Full Stack Developer 🚀
+
+![alt text](https://github.com/danielbaiadias18/test-stefanini-fullstack/blob/main/TestStefanini-Teste-Gravado.gif "Teste Gravado")
 
 <br>
 
