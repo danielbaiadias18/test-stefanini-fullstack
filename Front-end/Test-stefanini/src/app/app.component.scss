@@ -18,3 +18,12 @@ table{
     display: flex;
     justify-content: center;
 }
+
+.align-items-right{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.selected{
+    background-color: #79cccc!important;
+}

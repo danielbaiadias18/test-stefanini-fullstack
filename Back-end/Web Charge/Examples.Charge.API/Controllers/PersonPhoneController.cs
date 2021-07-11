@@ -44,7 +44,7 @@ namespace Examples.Charge.API.Controllers
             return Response(await _facade.Post(request));
         }
 
-        [HttpPut("{PhoneNumber}/{PhoneNumberTypeID}")]
+        [HttpPost("{PhoneNumber}/{PhoneNumberTypeID}")]
         public async Task<ActionResult<PersonPhone>> Put(string phoneNumber, int phoneNumberTypeID, [FromBody] PersonPhone request)
         {
             if (!ModelState.IsValid)

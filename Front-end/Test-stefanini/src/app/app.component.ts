@@ -11,48 +11,100 @@ import { iPersonPhone } from 'src/models/PersonPhone';
 export class AppComponent implements OnInit {
 
   title = 'Test-stefanini';
-  readonly apiURL : string;
+  readonly apiURL: string;
   personPhones: iPersonPhone[] = [];
   personPhone: iPersonPhone = null;
   form: FormGroup;
 
-  constructor(private http : HttpClient,private fb: FormBuilder) {
+  constructor(private http: HttpClient, private fb: FormBuilder) {
     this.apiURL = 'http://localhost:5000';
     this.form = this.fb.group({
-      businessEntityID: [''],
-      name: [''],
+      businessEntityID: [{ value: '', disabled: true }],
+      name: [{ value: '', disabled: true }],
       phoneNumber: ['', Validators.required],
       phoneNumberTypeID: ['', Validators.compose([Validators.required, Validators.min(1)])],
     });
   }
 
   ngOnInit(): void {
-
-    this.http.get(`${ this.apiURL }/api/personphone`)
-    .subscribe((response: any) => {
-      this.personPhones = response.data.personPhoneObjects;
-    });
-
-   
+    this.getAll();
   }
 
-  getById(phoneNumberTypeID: number, phoneNumber: string){
-    this.http.get(`${ this.apiURL }/api/personphone/${phoneNumber}/${phoneNumberTypeID}`)
-    .subscribe((response: any) => {
-      this.personPhone = response.data.personPhoneObject;
-      this.form.controls['phoneNumber'].setValue(this.personPhone.phoneNumber);
-      this.form.controls['businessEntityID'].setValue(this.personPhone.businessEntityID);
-      this.form.controls['name'].setValue(this.personPhone.person.name);
-      this.form.controls['phoneNumberTypeID'].setValue(this.personPhone.phoneNumberTypeID);
-    });
+  getAll() {
+    this.http.get(`${this.apiURL}/api/personphone`)
+      .subscribe((response: any) => {
+        this.personPhones = response.data.personPhoneObjects;
+      });
   }
 
-  salvar(){
-    this.http.post(`${ this.apiURL }/api/personphone`, this.form.value)
-    .subscribe((response: any) => {
-      console.log(response)
-    });
+  getById(phoneNumberTypeID: number, phoneNumber: string) {
+    this.http.get(`${this.apiURL}/api/personphone/${phoneNumber}/${phoneNumberTypeID}`)
+      .subscribe((response: any) => {
+        this.personPhone = response.data.personPhoneObject;
+        this.form.controls.businessEntityID.disable();
+        this.form.controls['phoneNumber'].setValue(this.personPhone.phoneNumber);
+        this.form.controls['businessEntityID'].setValue(this.personPhone.businessEntityID);
+        this.form.controls['name'].setValue(this.personPhone.person.name);
+        this.form.controls['phoneNumberTypeID'].setValue(this.personPhone.phoneNumberTypeID);
+      });
   }
 
+  save() {
+    if (this.form.valid) {
+      this.form.controls.businessEntityID.enable();
+      this.form.controls.businessEntityID.setValue(1);
+      this.http.post(`${this.apiURL}/api/personphone`, this.form.value)
+        .subscribe((response: any) => {
+          if (response.success) {
+            this.getAll();
+            this.clearForm();
+            //toast
+          }
+        });
 
+    } else {
+      this.markFormGroupTouched(this.form);
+    }
+  }
+
+  change() {
+    if (this.form.valid) {
+
+      this.form.controls.businessEntityID.enable();
+      this.http.post(`${this.apiURL}/api/personphone/${this.personPhone.phoneNumber}/${this.personPhone.phoneNumberTypeID}`, this.form.value)
+        .subscribe((response: any) => {
+          if (response.success) {
+            this.getAll();
+            this.clearForm();
+            //toast
+          }
+        });
+
+    } else {
+      this.markFormGroupTouched(this.form);
+    }
+  }
+
+  clearForm() {
+    this.form.reset();
+    this.personPhone = null;
+  }
+
+  delete(phoneNumberTypeID: number, phoneNumber: string) {
+    this.http.delete(`${this.apiURL}/api/personphone/${phoneNumber}/${phoneNumberTypeID}`)
+      .subscribe((response: any) => {
+        this.getAll();
+      });
+  }
+
+  markFormGroupTouched(formGroup: FormGroup) {
+    (<any>Object).values(formGroup.controls).forEach((control: FormGroup) => {
+      control.markAsTouched();
+      control.markAsDirty();
+
+      if (control.controls) {
+        this.markFormGroupTouched(control);
+      }
+    });
+  }
 }

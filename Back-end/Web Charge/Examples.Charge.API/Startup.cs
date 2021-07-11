@@ -85,7 +85,7 @@ namespace Examples.Charge.API
                 options.DisplayRequestDuration();
             });
 
-            app.UseCors(option => option.AllowAnyOrigin());
+            app.UseCors(option => option.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseMvc();
         }
 
