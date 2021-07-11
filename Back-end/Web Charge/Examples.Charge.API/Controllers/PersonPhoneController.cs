@@ -40,6 +40,10 @@ namespace Examples.Charge.API.Controllers
             {
                 return BadRequest(new { success = false, errors = ModelState });
             }
+            else if(_facade.GetById(request.PhoneNumber, request.PhoneNumberTypeID).IsCompletedSuccessfully)
+            {
+                return BadRequest(new { success = false, errors = "Esse registro já foi cadastrado!" });
+            }
 
             return Response(await _facade.Post(request));
         }

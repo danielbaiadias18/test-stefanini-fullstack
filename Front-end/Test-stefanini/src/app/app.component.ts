@@ -51,7 +51,19 @@ export class AppComponent implements OnInit {
   }
 
   save() {
+    
+    this.personPhones.forEach(element => {
+      if(element.phoneNumber == this.form.controls.phoneNumber.value && element.businessEntityID == this.form.controls.businessEntityID.value){
+        this.form.setErrors({notUnique: true})
+      }
+    });
+
+    if(this.form.getError('notUnique')){
+      this.toastr.error("Este registro já existe!");
+    }
+
     if (this.form.valid) {
+
       this.form.controls.businessEntityID.enable();
       this.form.controls.businessEntityID.setValue(1);
       this.http.post(`${this.apiURL}/api/personphone`, this.form.value)
@@ -100,7 +112,7 @@ export class AppComponent implements OnInit {
       this.http.delete(`${this.apiURL}/api/personphone/${phoneNumber}/${phoneNumberTypeID}`)
         .subscribe(() => {
             this.getAll();
-            this.toastr.success("Registro deletado com sucesso!");
+            this.toastr.success("Deletado com sucesso!");
         });
     }
 
