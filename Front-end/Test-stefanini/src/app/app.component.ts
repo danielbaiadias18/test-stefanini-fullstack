@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { iPersonPhone } from 'src/models/PersonPhone';
 
 @Component({
@@ -16,7 +17,7 @@ export class AppComponent implements OnInit {
   personPhone: iPersonPhone = null;
   form: FormGroup;
 
-  constructor(private http: HttpClient, private fb: FormBuilder) {
+  constructor(private http: HttpClient, private fb: FormBuilder, private toastr: ToastrService) {
     this.apiURL = 'http://localhost:5000';
     this.form = this.fb.group({
       businessEntityID: [{ value: '', disabled: true }],
@@ -58,7 +59,9 @@ export class AppComponent implements OnInit {
           if (response.success) {
             this.getAll();
             this.clearForm();
-            //toast
+            this.toastr.success("Salvo com sucesso!");
+          } else {
+            this.toastr.error("Não foi possível salvar esse registro!");
           }
         });
 
@@ -76,7 +79,9 @@ export class AppComponent implements OnInit {
           if (response.success) {
             this.getAll();
             this.clearForm();
-            //toast
+            this.toastr.success("Alterado com sucesso!");
+          } else {
+            this.toastr.error("Não foi possível alterar esse registro!");
           }
         });
 
@@ -91,10 +96,14 @@ export class AppComponent implements OnInit {
   }
 
   delete(phoneNumberTypeID: number, phoneNumber: string) {
-    this.http.delete(`${this.apiURL}/api/personphone/${phoneNumber}/${phoneNumberTypeID}`)
-      .subscribe((response: any) => {
-        this.getAll();
-      });
+    if (confirm("Tem certeza que deseja deletar o telefone " + phoneNumber + "?")) {
+      this.http.delete(`${this.apiURL}/api/personphone/${phoneNumber}/${phoneNumberTypeID}`)
+        .subscribe(() => {
+            this.getAll();
+            this.toastr.success("Registro deletado com sucesso!");
+        });
+    }
+
   }
 
   markFormGroupTouched(formGroup: FormGroup) {

@@ -34,16 +34,6 @@ namespace Examples.Charge.Infra.Data.Repositories
             return personPhone;
         }
 
-        public virtual async Task<PersonPhone> Put(string phoneNumber, int phoneNumberTypeID, PersonPhone personPhone)
-        {
-            //PersonPhone oldPerson = await GetById(phoneNumber, phoneNumberTypeID);
-
-            //_dbSet.Remove(oldPerson);
-            await Delete(phoneNumber, phoneNumberTypeID);
-            await Post(personPhone);
-
-            return personPhone;
-        }
         public virtual async Task<int> Delete(string phoneNumber, int phoneNumberTypeID)
         {
             PersonPhone oldPerson = await GetById(phoneNumber, phoneNumberTypeID);

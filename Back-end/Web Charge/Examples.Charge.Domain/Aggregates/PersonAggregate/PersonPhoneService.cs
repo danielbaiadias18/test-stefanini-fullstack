@@ -24,7 +24,10 @@ namespace Examples.Charge.Domain.Aggregates.PersonAggregate
         }
         public async Task<PersonPhone> Put(string phoneNumber, int phoneNumberTypeID, PersonPhone personPhone)
         {
-            return await _personPhoneRepository.Put(phoneNumber, phoneNumberTypeID, personPhone);
+            await _personPhoneRepository.Delete(phoneNumber, phoneNumberTypeID);
+            await _personPhoneRepository.Post(personPhone);
+
+            return personPhone;
         }
         public async Task<int> Delete(string phoneNumber, int phoneNumberTypeID)
         {
